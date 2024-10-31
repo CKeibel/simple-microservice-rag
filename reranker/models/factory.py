@@ -3,7 +3,7 @@ import sys
 from models.model import BiEncoderWrapper, CrossEncoderWrapper, Reranker
 
 
-class RerenakerFactory:
+class ModelFactory:
     @staticmethod
     def get_reranker(model_id: str) -> Reranker:
         model = None

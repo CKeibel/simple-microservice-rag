@@ -1,6 +1,6 @@
 import sys
 
-from models.model import CrossEncoderWrapper, Reranker, SentenceTransformerWrapper
+from models.model import BiEncoderWrapper, CrossEncoderWrapper, Reranker
 
 
 class RerenakerFactory:
@@ -12,7 +12,7 @@ class RerenakerFactory:
             return model
         except Exception:
             try:
-                model = SentenceTransformerWrapper(model_id)
+                model = BiEncoderWrapper(model_id)
                 return model
             except Exception:
                 sys.exit(1)

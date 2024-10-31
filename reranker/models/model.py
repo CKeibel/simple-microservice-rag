@@ -24,7 +24,7 @@ class CrossEncoderWrapper(Reranker):
         return [RerankResult(**r) for r in result]
 
 
-class SentenceTransformerWrapper(Reranker):
+class BiEncoderWrapper(Reranker):
     def __init__(self, model_id: str) -> None:
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         self.model = SentenceTransformer(model_id, device=self.device)
@@ -33,7 +33,8 @@ class SentenceTransformerWrapper(Reranker):
         e_query = self.model.encode(query)
         e_docs = self.model.encode(docs)
         results = self.model.similarity(e_query, e_docs)[0].tolist()
-        return [
+        results = [
             RerankResult(corpus_id=i, score=score, text=text)
             for i, (score, text) in enumerate(results, docs)
         ]
+        return sorted(results, key=lambda x: x.score, reverse=True)

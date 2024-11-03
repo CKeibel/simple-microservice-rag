@@ -16,6 +16,7 @@ sentence-transformers = "^3.2.1"
 numpy = "^1"
 dynaconf = "^3.2.6"
 einops = "^0.8.0"
+uvicorn = "^0.32.0"
 
 
 [build-system]

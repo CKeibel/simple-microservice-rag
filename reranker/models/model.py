@@ -10,7 +10,7 @@ class Reranker(ABC):
         pass
 
     @abstractmethod
-    def rank(self, query: str, docs: list[str]) -> list[RerankResult]:
+    async def rank(self, query: str, docs: list[str]) -> list[RerankResult]:
         pass
 
 
@@ -19,7 +19,7 @@ class CrossEncoderWrapper(Reranker):
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         self.model = CrossEncoder(model_id, device=self.device)
 
-    def rank(self, query: str, docs: list[str]) -> list[RerankResult]:
+    async def rank(self, query: str, docs: list[str]) -> list[RerankResult]:
         result = self.model.rank(query, docs)
         return [
             RerankResult(
@@ -34,7 +34,7 @@ class BiEncoderWrapper(Reranker):
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         self.model = SentenceTransformer(model_id, device=self.device)
 
-    def rank(self, query: str, docs: list[str]) -> list[RerankResult]:
+    async def rank(self, query: str, docs: list[str]) -> list[RerankResult]:
         e_query = self.model.encode(query)
         e_docs = self.model.encode(docs)
         results = self.model.similarity(e_query, e_docs)[0].tolist()

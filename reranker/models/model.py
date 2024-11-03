@@ -17,7 +17,7 @@ class Reranker(ABC):
 class CrossEncoderWrapper(Reranker):
     def __init__(self, model_id: str) -> None:
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        self.model = CrossEncoder(model_id, device=self.device)
+        self.model = CrossEncoder(model_id, device=self.device, trust_remote_code=True)
 
     async def rank(self, query: str, docs: list[str]) -> list[RerankResult]:
         result = self.model.rank(query, docs)
@@ -32,7 +32,9 @@ class CrossEncoderWrapper(Reranker):
 class BiEncoderWrapper(Reranker):
     def __init__(self, model_id: str) -> None:
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        self.model = SentenceTransformer(model_id, device=self.device)
+        self.model = SentenceTransformer(
+            model_id, device=self.device, trust_remote_code=True
+        )
 
     async def rank(self, query: str, docs: list[str]) -> list[RerankResult]:
         e_query = self.model.encode(query)

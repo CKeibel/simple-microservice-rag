@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  embedding_service:
+    build:
+      context: ./embedder
+      dockerfile: Dockerfile
+    image: embedding-service:latest
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+  rerank_service:
+    build:
+      context: ./reranker
+      dockerfile: Dockerfile
+    image: rerank-service:latest
+    ports:
+      - "8001:8000"
+    restart: unless-stopped

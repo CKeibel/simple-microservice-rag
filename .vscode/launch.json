@@ -12,7 +12,23 @@
             "module": "uvicorn",
             "args": [
                 "main:app",
-                "--reload"
+                "--reload",
+                "--port",
+                "8000"
+            ],
+            "jinja": true
+        },
+        {
+            "name": "Embedding Service",
+            "type": "debugpy",
+            "cwd": "${workspaceFolder}/embedder",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "main:app",
+                "--reload",
+                "--port",
+                "8001"
             ],
             "jinja": true
         }

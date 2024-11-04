@@ -9,4 +9,6 @@ class Document(BaseModel):
 
 class IntermediateResult(BaseModel):
     queries: list[str]
-    documents: list[Document] = Field(default_factory=list)
+    query_vectors: list[list[float]] | None = None
+    documents: list[list[Document]] = Field(default_factory=list)
+    outputs: list[str] | None = None
